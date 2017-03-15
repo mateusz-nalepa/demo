@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
@@ -17,5 +19,14 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Modifying
     @Transactional
     @Query("update Employee e set e.salary = :salary where e.id = :id")
-    int updateEmployee(@Param("id") Long id, @Param("salary") BigInteger salary);
+    int editSalary(@Param("id") Long id, @Param("salary") BigInteger salary);
+
+    @Modifying
+    @Transactional
+    @Query("update Employee e set e.salary = e.salary + :salary")
+    int raiseSalaryToAllEmployees(@Param("salary") BigInteger salary);
+
+    List<Employee> findBySalaryBetween(BigInteger minSalary, BigInteger maxSalary);
+
+    List<Employee> findByLastNameContaining(String lastName);
 }

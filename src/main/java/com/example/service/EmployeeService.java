@@ -5,7 +5,6 @@ import com.example.domain.Employee;
 import com.example.domain.helpers.EmployeeHelper;
 import com.example.repository.EmployeeRepository;
 import lombok.Data;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -43,7 +42,7 @@ public class EmployeeService {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    public HttpEntity<?> findOne(Long id) {
+    public ResponseEntity<?> findOne(Long id) {
         return employeeRepository
                 .findById(id)
                 .map(EmployeeHelper::new)
@@ -51,11 +50,32 @@ public class EmployeeService {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    public ResponseEntity<?> edit(Long id, BigInteger salary) {
+    public ResponseEntity<?> editSalary(Long id, BigInteger salary) {
         return new ResponseEntity<>(
-                employeeRepository.updateEmployee(id, salary) == 0 ? HttpStatus.NOT_FOUND : HttpStatus.OK
+                employeeRepository.editSalary(id, salary) == 0 ? HttpStatus.NOT_FOUND : HttpStatus.OK
         );
     }
 
 
+    public List<EmployeeHelper> findBySalaryBetween(BigInteger minSalary, BigInteger maxSalary) {
+        return employeeRepository
+                .findBySalaryBetween(minSalary, maxSalary)
+                .stream()
+                .map(EmployeeHelper::new)
+                .collect(Collectors.toList());
+    }
+
+    public List<EmployeeHelper> findByLastName(String lastName) {
+        return employeeRepository
+                .findByLastNameContaining(lastName)
+                .stream()
+                .map(EmployeeHelper::new)
+                .collect(Collectors.toList());
+    }
+
+    public ResponseEntity<?> raiseSalary(BigInteger riseValue) {
+        return new ResponseEntity<>(
+                employeeRepository.raiseSalaryToAllEmployees(riseValue) + " employees got a raise",
+                HttpStatus.OK);
+    }
 }

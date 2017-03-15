@@ -2,13 +2,13 @@ spring:
   h2:
     console:
       enabled: true
-#  datasource:
-#    url: jdbc:mysql://127.0.0.1:3306/softy
-#    username: root
-#    password:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/softy
+    username: root
+    password:
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: true
   data:
     rest:

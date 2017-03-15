@@ -3,7 +3,6 @@ package com.example.controller;
 import com.example.domain.helpers.EmployeeHelper;
 import com.example.service.EmployeeService;
 import lombok.Data;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,9 +21,22 @@ public class EmployeeController {
         return employeeService.findAll();
     }
 
+    @GetMapping("salarybetween")
+    public List<EmployeeHelper> findBySalaryBetween(
+            @RequestParam BigInteger minSalary,
+            @RequestParam BigInteger maxSalary) {
+        return employeeService.findBySalaryBetween(minSalary, maxSalary);
+    }
+
     @GetMapping("{id}")
-    public HttpEntity<?> findOne(@PathVariable Long id) {
+    public ResponseEntity<?> findOne(@PathVariable Long id) {
         return employeeService.findOne(id);
+    }
+
+
+    @GetMapping("findbylastname")
+    public List<EmployeeHelper> findByLastName(@RequestParam String lastName) {
+        return employeeService.findByLastName(lastName);
     }
 
     @PostMapping
@@ -39,7 +51,12 @@ public class EmployeeController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<?> edit(@PathVariable Long id, @RequestParam BigInteger salary) {
-        return employeeService.edit(id, salary);
+    public ResponseEntity<?> editSalary(@PathVariable Long id, @RequestParam BigInteger salary) {
+        return employeeService.editSalary(id, salary);
+    }
+
+    @GetMapping("raisesalary")
+    public ResponseEntity<?> raiseSalary(@RequestParam BigInteger riseValue) {
+        return employeeService.raiseSalary(riseValue);
     }
 }
