@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.domain.helpers.EmployeeHelper;
+import com.example.domain.dto.EmployeeDto;
 import com.example.service.EmployeeService;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +17,17 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public List<EmployeeHelper> findAll() {
+    public List<EmployeeDto> findAll() {
         return employeeService.findAll();
     }
 
+    @GetMapping("raisesalary")
+    public ResponseEntity<?> raiseSalary(@RequestParam BigInteger riseValue) {
+        return employeeService.raiseSalary(riseValue);
+    }
+
     @GetMapping("salarybetween")
-    public List<EmployeeHelper> findBySalaryBetween(
+    public List<EmployeeDto> findBySalaryBetween(
             @RequestParam BigInteger minSalary,
             @RequestParam BigInteger maxSalary) {
         return employeeService.findBySalaryBetween(minSalary, maxSalary);
@@ -33,17 +38,15 @@ public class EmployeeController {
         return employeeService.findOne(id);
     }
 
-
     @GetMapping("findbylastname")
-    public List<EmployeeHelper> findByLastName(@RequestParam String lastName) {
+    public List<EmployeeDto> findByLastName(@RequestParam String lastName) {
         return employeeService.findByLastName(lastName);
     }
 
     @PostMapping
-    public ResponseEntity<Void> add(@RequestBody EmployeeHelper employeeHelper) {
-        return employeeService.add(employeeHelper);
+    public ResponseEntity<Void> add(@RequestBody EmployeeDto employeeDto) {
+        return employeeService.add(employeeDto);
     }
-
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
@@ -53,10 +56,5 @@ public class EmployeeController {
     @PutMapping("{id}")
     public ResponseEntity<?> editSalary(@PathVariable Long id, @RequestParam BigInteger salary) {
         return employeeService.editSalary(id, salary);
-    }
-
-    @GetMapping("raisesalary")
-    public ResponseEntity<?> raiseSalary(@RequestParam BigInteger riseValue) {
-        return employeeService.raiseSalary(riseValue);
     }
 }

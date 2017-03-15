@@ -1,6 +1,6 @@
 package com.example.domain;
 
-import com.example.domain.helpers.EmployeeHelper;
+import com.example.domain.dto.EmployeeDto;
 import com.example.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,13 +29,13 @@ public class Employee {
     @Column(length = 50, nullable = false)
     private String firstName;
 
-    @Size(max = 50)
+    @Size(max = 50, message = "LastName can have maximum 50 char.")
     @Column(length = 50, nullable = false)
     private String lastName;
 
     @Size(min = 1, max = 50)
     @Column(length = 50, unique = true, nullable = false)
-    @Email
+    @Email(message = "Email is in incorrect format")
     private String email;
 
     @Column(length = 1)
@@ -45,12 +45,12 @@ public class Employee {
     private BigInteger salary;
     private LocalDateTime birthDate;
 
-    public Employee(EmployeeHelper employeeHelper) {
-        this.firstName = employeeHelper.getFirstName();
-        this.lastName = employeeHelper.getLastName();
-        this.salary = employeeHelper.getSalary();
-        this.gender = employeeHelper.getGender();
-        this.birthDate = employeeHelper.getBirthDate();
-        this.email = employeeHelper.getEmail();
+    public Employee(EmployeeDto employeeDto) {
+        this.firstName = employeeDto.getFirstName();
+        this.lastName = employeeDto.getLastName();
+        this.salary = employeeDto.getSalary();
+        this.gender = employeeDto.getGender();
+        this.birthDate = employeeDto.getBirthDate();
+        this.email = employeeDto.getEmail();
     }
 }

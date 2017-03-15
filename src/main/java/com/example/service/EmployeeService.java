@@ -2,14 +2,13 @@ package com.example.service;
 
 
 import com.example.domain.Employee;
-import com.example.domain.helpers.EmployeeHelper;
+import com.example.domain.dto.EmployeeDto;
 import com.example.repository.EmployeeRepository;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,16 +19,16 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
 
-    public List<EmployeeHelper> findAll() {
+    public List<EmployeeDto> findAll() {
         return employeeRepository
                 .findAll()
                 .stream()
-                .map(EmployeeHelper::new)
+                .map(EmployeeDto::new)
                 .collect(Collectors.toList());
     }
 
-    public ResponseEntity<Void> add(EmployeeHelper employeeHelper) {
-        employeeRepository.save(new Employee(employeeHelper));
+    public ResponseEntity<Void> add(EmployeeDto employeeDto) {
+        employeeRepository.save(new Employee(employeeDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -46,7 +45,7 @@ public class EmployeeService {
     public ResponseEntity<?> findOne(Long id) {
         return employeeRepository
                 .findById(id)
-                .map(EmployeeHelper::new)
+                .map(EmployeeDto::new)
                 .map(ResponseEntity::ok)
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -57,20 +56,19 @@ public class EmployeeService {
         );
     }
 
-
-    public List<EmployeeHelper> findBySalaryBetween(BigInteger minSalary, BigInteger maxSalary) {
+    public List<EmployeeDto> findBySalaryBetween(BigInteger minSalary, BigInteger maxSalary) {
         return employeeRepository
                 .findBySalaryBetween(minSalary, maxSalary)
                 .stream()
-                .map(EmployeeHelper::new)
+                .map(EmployeeDto::new)
                 .collect(Collectors.toList());
     }
 
-    public List<EmployeeHelper> findByLastName(String lastName) {
+    public List<EmployeeDto> findByLastName(String lastName) {
         return employeeRepository
                 .findByLastNameContaining(lastName)
                 .stream()
-                .map(EmployeeHelper::new)
+                .map(EmployeeDto::new)
                 .collect(Collectors.toList());
     }
 
