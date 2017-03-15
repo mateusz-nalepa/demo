@@ -6,10 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Email;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -20,13 +20,29 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Employee {
 
+
     @Id
     @GeneratedValue
     private long id;
+
+    @Size(max = 50)
+    @Column(length = 50, nullable = false)
     private String firstName;
+
+    @Size(max = 50)
+    @Column(length = 50, nullable = false)
     private String lastName;
-    private BigInteger salary;
+
+    @Size(min = 1, max = 50)
+    @Column(length = 50, unique = true, nullable = false)
+    @Email
+    private String email;
+
+    @Column(length = 1)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+
+    private BigInteger salary;
     private LocalDateTime birthDate;
 
     public Employee(EmployeeHelper employeeHelper) {
@@ -35,5 +51,6 @@ public class Employee {
         this.salary = employeeHelper.getSalary();
         this.gender = employeeHelper.getGender();
         this.birthDate = employeeHelper.getBirthDate();
+        this.email = employeeHelper.getEmail();
     }
 }

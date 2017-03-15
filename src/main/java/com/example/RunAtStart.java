@@ -23,8 +23,9 @@ public class RunAtStart implements CommandLineRunner {
                 .birthDate(LocalDateTime.of(1994, 10, 14, 8, 0))
                 .firstName("Jan")
                 .lastName("Kowalski")
+                .email("jan@kowalski.pl")
                 .salary(BigInteger.valueOf(1500))
-                .gender(Gender.MAN)
+                .gender(Gender.M)
                 .build();
 
         employeeRepository.save(employee);
@@ -33,8 +34,9 @@ public class RunAtStart implements CommandLineRunner {
                 .birthDate(LocalDateTime.of(1990, 12, 8, 16, 0))
                 .firstName("Marian")
                 .lastName("Stepien")
+                .email("marian@stepin.pl")
                 .salary(BigInteger.valueOf(1600))
-                .gender(Gender.MAN)
+                .gender(Gender.M)
                 .build();
 
         employeeRepository.save(employee2);
@@ -44,8 +46,9 @@ public class RunAtStart implements CommandLineRunner {
                 .birthDate(LocalDateTime.of(1992, 11, 8, 8, 0))
                 .firstName("Katarzyna")
                 .lastName("Nowak")
+                .email("katarzyna@nowak.pl")
                 .salary(BigInteger.valueOf(1750))
-                .gender(Gender.WOMAN)
+                .gender(Gender.W)
                 .build();
 
         employeeRepository.save(employee3);
